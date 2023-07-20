@@ -1,6 +1,7 @@
 # OT-P 
-# Vaatimusmäärittely
+[OT-P kirjanpito & työtila](https://github.com/KeranenKirill/OT-P/blob/main/TYOAIKAKIRJANPITO.md)
 
+# Vaatimusmäärittely
 ## Sovelluksen tarkoitus
 
 Sovelluksen tarkoituksena on tarjota käyttäjälle keskusteluketju-alusta, jossa voidaan käsitellä eri puheenaiheita.
