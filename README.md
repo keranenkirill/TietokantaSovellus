@@ -28,6 +28,8 @@ Sovelluksen tarkoituksena on tarjota käyttäjälle keskusteluketju-alusta, joss
 
 - palvelun etusivulla myös toiminallisuus, jossa näkyy suosituimmat puheenaiheet paikkakunnan, tykkäysten, sekä kommenttien määrän mukaan
 
+- palvelun etusivulla toiminallisuus, jolla voi hakusanalla hakea keskusteluaiheita ja keskusteluja
+
 
 
 
