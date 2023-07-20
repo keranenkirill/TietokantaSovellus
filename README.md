@@ -7,6 +7,7 @@ Sovelluksen tarkoituksena on tarjota käyttäjälle keskusteluketju-alusta, joss
 
 ## Perusversion toiminallisuudet
 ***! alla olevat toiminallisuudet toistaiseksi suunitteluvaiheessa ***
+- Sovellus toimii kehitysvaiheen alussa paikallisesti, mutta tarkoituksena on saada se palvelimelle (Fly.io)
 
 - Käyttäjä voi kirjautua palveluun tai luoda tilin suojatulla salasanalla (hash)
 
