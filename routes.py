@@ -17,7 +17,7 @@ def login():
         if users.login(username, password):
             return redirect("/")
         else:
-            return render_template("error.html", message="Väärä tunnus tai salasana")
+            return render_template("error.html", message="Incorrect username or password")
 
 
 @app.route("/logout")
@@ -26,38 +26,46 @@ def logout():
     print("suljettii sessio ja nyt redirect /-sivulle")
     return redirect("/")
 
-
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
         return render_template("register.html")
     if request.method == "POST":
-        username = request.form["username"]
+        firstname = request.form["firstname"]
+        lastname = request.form["lastname"]
         age = request.form["age"]
         city = request.form["city"]
+        
+        username = request.form["username"]
         password1 = request.form["password1"]
         password2 = request.form["password2"]
 
         error_messages = []
 
+        if not firstname:
+            error_messages.append("First name is required")
+        
+        if not lastname:
+            error_messages.append("Last name is required")
+        
         if not age:
-            error_messages.append("Ikä-kenttä on pakollinen")
+            error_messages.append("Age is required")
         else:
             try:
                 age = int(age)
             except ValueError:
-                error_messages.append("Ikä-kentän pitää olla numero")
+                error_messages.append("Age must be a number")
         
         if not city:
-            error_messages.append("Kaupunki-kenttä on pakollinen")
+            error_messages.append("City is required")
 
         if password1 != password2:
-            error_messages.append("Salasanat eroavat")
+            error_messages.append("Passwords do not match")
 
         if error_messages:
             return render_template("error.html", messages=error_messages)
         else:
-            if users.register(username, age, city, password1):
+            if users.register(firstname, lastname, age, city, username, password1):
                 return redirect("/")
             else:
-                return render_template("error.html", messages=["Rekisteröinti ei onnistunut"])
+                return render_template("error.html", messages=["Registration failed"])
