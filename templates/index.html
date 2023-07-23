@@ -1,0 +1,10 @@
+<title>Testisivu</title>
+<h1>Tervetuloa!</h1>
+
+{% if session.user_id %}
+Tsirp Tsirp! Olet kirjautunut sisään.
+<a href="/logout">Kirjaudu ulos</a>
+
+{% else %}
+<a href="/login">Kirjaudu sisään</a>
+{% endif %}
