@@ -1,5 +1,5 @@
 # OT-P 
-[OT-P kirjanpito & työtila](https://github.com/KeranenKirill/OT-P/blob/main/TYOAIKAKIRJANPITO.md)
+[OT-P kirjanpito & työtila](https://github.com/KeranenKirill/OT-P/blob/main/DOKUMENTAATIO/TYOAIKAKIRJANPITO.md)
   
     
 # Vaatimusmäärittely
