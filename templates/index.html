@@ -1,10 +1,16 @@
-<title>.TsirpTsirp.</title>
-<h1>Hello!</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>.TsirpTsirp.</title>
+</head>
+<body>
+    <h1>Hello!</h1>
 
-{% if session.user_id %}
-Tsirp Tsirp! You are logged in!
-<a href="/logout">Log out</a>
-
-{% else %}
-<a href="/login">Log in</a>
-{% endif %}
+    {% if session.user_id %}
+    <p>Tsirp Tsirp! You are logged in!</p>
+    <a href="/logout">Log out</a>
+    {% else %}
+    <a href="/login">Log in</a>
+    {% endif %}
+</body>
+</html>
