@@ -7,7 +7,10 @@
 
 Sovelluksen tarkoituksena on tarjota käyttäjälle keskusteluketju-alusta, jossa voidaan käsitellä eri puheenaiheita.
 
-## Perusversion toiminallisuudet nykyhetkellä (24.07.2023)
+## Perusversion toiminallisuudet (24.07.2023) 
+# (tämä kappale päivitetään projektin edetessä)
+
+[OT-P taulujen UML-kaavio](https://github.com/KeranenKirill/OT-P/tree/main/DOKUMENTAATIO/otp_tables_uml)
 
 - Sovellus toimii paikallisesti
 - Käyttäjä voi kirjautua palveluun tai luoda uuden käyttäjä-tilin 
