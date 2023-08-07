@@ -7,21 +7,32 @@
 
 Sovelluksen tarkoituksena on tarjota käyttäjälle keskusteluketju-alusta, jossa voidaan käsitellä eri puheenaiheita.
 
-## Perusversion toiminallisuudet (24.07.2023) 
+## Perusversion toiminallisuudet (07.08.2023) 
 (tämä kappale päivitetään projektin edetessä)
 
-[OT-P taulujen UML-kaavio](https://github.com/KeranenKirill/OT-P/tree/main/DOKUMENTAATIO/otp_tables_uml)
 
 - Sovellus toimii paikallisesti
 - Käyttäjä voi kirjautua palveluun tai luoda uuden käyttäjä-tilin 
    - Luodessaan käyttäjä-tiliä, käyttäjä voi asettaa:
       - etunimen, sukunimen, iän, kotikaupunginsa, käyttäjänimen, salasanan (lisäksi vahvistetaan sala sana toiseen otteeseen)
       - luontivaiheessa, mikäli käyttäjä jättää kohdat täyttämättä, tai kirjoittaa väärin, niin aiheutuu virhe-viestit (kaupunkien kohdalla input- muutetaan valinta-toiminnaksi seuraavissa päivityksissä)
-- Salasanat muutetaan hash-muotoon
+      - Salasanat muutetaan hash-muotoon
 - Uloskirjautuminen ja sisäänkirjautuminen luoduilla käyttäjillä
-- Kaksi tietokanta-taulua:
+- Kun käyttäjä on kirjautunut, avautuu näkymä, jossa voidaan luoda keskusteluketju
+   - keskusteluketjun luomiseen tarvitaan puheenaihe (topic), sekä ensimmäinen kommentti (kesksutelun luojan on myös aloitettava keskustelu)
+- Ensimmäinen keskusteluketju renderöityy etusivulle
+   - käyttäjä näkee tällöin puheenaiheen, ensimmäisen kommentin, kseskusteluketjun luoneen käyttäjänimen, sekä redirect -linkin.
+- Redirect -linkki etusivulla johta keskusteluketjuun, jossa näkyy aihe, mahdollisuus lisätä kommentti, sekä keskusteluketjun kaikki kommentit. (uusin kommentti alhaalla)
+- Kommenteille on mahdollista antaa joko positiivinen tykkäys tai negatiivinen tykkäys
+   - käyttäjä ei voi antaa monta tykkäystä peräkkäin
+
+- Neljä tietokanta-taulua:
    - otp_users
-   - otp_users_info
+   - otp_topics
+   - otp_comments
+   - otp_user_reactions
+
+
   
 
 ## Perusversion tavoite-toiminallisuudet
