@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>.TsirpTsirp.</title>
+</head>
+<body>
+    <a href="/">Back</a> | <a>{{ session.username }}</a>
+    <header>
+        <p>{{ content }}</p>
+        <form action="/add_topic_comment" method="post">
+            <input type="hidden" name="topic_id" value="{{ topic_id }}">
+            <label for="topic_thread_comment">Insert comment:</label><br>
+            <textarea name="topic_thread_comment" id="topic_thread_comment" rows="3" cols="30"></textarea><br>
+            <input type="submit" value="Create">
+        </form>
+        <hr>
+
+        {% for comment in comments %}
+        <div>
+            <!--THIS IS DEBUG LINE: <p><strong>Comment ID:</strong> {{ comment[2] }}</p> -->
+            <p><strong>Comment:</strong> {{ comment[0] }}</p>
+            <p><strong>Created by:</strong> {{ comment[1] }}</p>
+            <p><strong>Likes:</strong> {{ comment[3] }}</p>
+            <form action="/like_comment" method="post">
+                <input type="hidden" name="topic_id" value="{{ topic_id }}">
+                <input type="hidden" name="comment_id" value="{{ comment[2] }}">
+                <input type="hidden" name="user_id" value="{{ session.user_id }}">
+                <button type="submit" name="like" value="like">Like</button>
+                <button type="submit" name="dislike" value="dislike">Dislike</button>
+            </form>
+        </div>
+        <hr>
+        {% endfor %}
+    </header>
+</body>
+</html>
