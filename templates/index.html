@@ -2,50 +2,69 @@
 <html>
 <head>
     <title>.TsirpTsirp.</title>
+    <style>
+        body {
+            font-family: "Varela Round", sans-serif;
+        }
+        .conversation-button {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        textarea {
+        border-radius: 8px;
+        padding: 8px;
+        }
+    </style>
 </head>
 <body>
     <h1>Hello!</h1>
 
     {% if session.user_id %}
-        <p>Tsirp Tsirp! You are logged in as {{ session.username }}</p>
-        <a href="/logout">Log out</a>
+    <p>Tsirp Tsirp! You are logged in as {{ session.username }}</p>
+    <a href="/logout">Log out</a>
 
-        <form action="/send" method="post">
-            <label for="topic_content">Insert topic:</label><br>
-            <textarea name="topic_content" id="topic_content" rows="1" cols="30"></textarea><br>
+    <form action="/send" method="post">
+        <label for="topic_content">Insert topic:</label><br>
+        <textarea name="topic_content" id="topic_content" rows="1" cols="30"></textarea><br>
+        
+        <label for="topic_comment">Insert first comment:</label><br>
+        <textarea name="topic_comment" id="topic_comment" rows="3" cols="30"></textarea><br>
+        
+        <input type="submit" value="Create">
+    </form>
+    <hr>
+
+    {% for message in messages %}
+        <div>
+            <!--THIS IS DEBUG LINE: <i>Topic ID:</i> {{ message[0] }}<br> -->
             
-            <label for="topic_comment">Insert first comment:</label><br>
-            <textarea name="topic_comment" id="topic_comment" rows="3" cols="30"></textarea><br>
-            
-            <input type="submit" value="Create">
-        </form>
+            <i>Topic:</i> {{ message[1] }}<br>
+            <i>Comment:</i> {{ message[2] }}<br>
+            <p>
+            <i>Created by:</i> {{ message[3] }}
+            <button class="conversation-button" onclick="window.location.href='thread/{{ message[0] }}';">Go to Conversation</button>
+        </div>
         <hr>
+    {% endfor %}
 
-        {% for message in messages %}
-            <div>
-                <!--THIS IS DEBUG LINE: <i>Topic ID:</i> {{ message[0] }}<br> -->
-                
-                <i>Topic:</i> {{ message[1] }}<br>
-                <i>Comment:</i> {{ message[2] }}<br>
-                <p>
-                <i>Created by:</i> {{ message[3] }}
-                <a href="thread/{{ message[0] }}">Convo Thread {{ message[0] }}</a>
-            </div>
-            <hr>
-        {% endfor %}
-
-    {% else %}
-        <form action="/login" method="post">
-            <label for="username">Username:</label>
-            <input type="text" name="username" id="username">
-            <br>
-            <br>
-            <label for="password">Password:</label>
-            <input type="password" name="password" id="password">
-            <br>
-            <input type="submit" value="Log in">
-        </form>
-        <p>If you don't have an account, you can create a new account <a href="/register">here</a>.</p>
-    {% endif %}
+{% else %}
+    <form action="/login" method="post">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username">
+        <br>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password">
+        <br>
+        <input type="submit" value="Log in">
+    </form>
+    <p>If you don't have an account, you can create a new account <a href="/register">here</a>.</p>
+{% endif %}
 </body>
 </html>
