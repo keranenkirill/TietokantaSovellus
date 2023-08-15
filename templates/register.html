@@ -2,6 +2,39 @@
 <html>
 <head>
     <title>Registration Form</title>
+    <style>
+        body {
+            font-family: "Varela Round", sans-serif;
+        }
+        .flash-messages {
+            display: flex;
+            flex-direction: column;
+            
+        }
+        .flash-message {
+            background-color: red;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px;
+            width: 300px;
+            text-align: center;
+        }
+        .conversation-button {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        textarea {
+            border-radius: 8px;
+            padding: 8px;
+        }
+    </style>
 </head>
 <body>
     <form action="/register" method="post">
@@ -30,5 +63,23 @@
     </form>
 
     <p>Go back to the login page <a href="/">here</a>.</p>
+
+    {% with messages = get_flashed_messages() %}  
+    {% if messages %}  
+        {% for message in messages %}  
+            <div class="flash-message">
+                {{ message }}
+            </div>  
+        {% endfor %}  
+        <script>
+            var flashMessages = document.querySelectorAll('.flash-message');
+            flashMessages.forEach(function(message) {
+                setTimeout(function() {
+                    message.style.display = 'none';
+                }, 3000);
+            });
+        </script>
+    {% endif %}  
+{% endwith %}
 </body>
 </html>

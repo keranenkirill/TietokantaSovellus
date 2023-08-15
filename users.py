@@ -41,7 +41,8 @@ def register(firstname, lastname, age, city, username, password):
         user_query = text("SELECT user_id FROM otp_users WHERE username = :username")
         existing_user = db.session.execute(user_query, {"username": username}).fetchone()
         if existing_user:
-            return "Username is already in use."
+            print("Username is already in use.")
+            return False
         
         # If username is not in use, proceed with user registration
         insert_query = text("INSERT INTO otp_users (username, password, firstname, lastname, age, hometown) VALUES (:username, :password, :firstname, :lastname, :age, :hometown) RETURNING user_id")
@@ -54,6 +55,8 @@ def register(firstname, lastname, age, city, username, password):
         print(e)
         traceback.print_exc()
         return False
+    
+    print("vissii mennää return loginniin")
     return login(username, password)
 
 

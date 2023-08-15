@@ -6,6 +6,19 @@
         body {
             font-family: "Varela Round", sans-serif;
         }
+        .flash-messages {
+            display: flex;
+            flex-direction: column;
+        }
+        .flash-message {
+            background-color: red;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px;
+            width: 300px;
+            text-align: center;
+        }
         .conversation-button {
             display: inline-block;
             padding: 5px 10px;
@@ -16,12 +29,19 @@
             cursor: pointer;
             border-radius: 5px;
         }
+        textarea {
+            border-radius: 8px;
+            padding: 8px;
+        }
     </style>
 </head>
 <body>
-    <button class="conversation-button" onclick="window.location.href='/'">Back</button> | <a>{{ session.username }}</a>
+    <button class="conversation-button" onclick="window.location.href='/'">Back</button> |
+    <a>{{ session.username }}</a>
     <header>
         <p>{{ content }}</p>
+        
+        <!-- Form to add a new comment -->
         <form action="/add_topic_comment" method="post">
             <input type="hidden" name="topic_id" value="{{ topic_id }}">
             <label for="topic_thread_comment">Insert comment:</label><br>
@@ -30,9 +50,31 @@
         </form>
         <hr>
 
+        <!-- Flash messages display -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="flash-messages">
+            {% for message in messages %}
+            <div class="flash-message">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        <script>
+            var flashMessages = document.querySelectorAll('.flash-message');
+            flashMessages.forEach(function(message) {
+                setTimeout(function() {
+                    message.style.display = 'none';
+                }, 3000);
+            });
+        </script>
+        {% endif %}
+        {% endwith %}
+
+        <!-- Display comments -->
         {% for comment in comments %}
         <div>
-            <!--THIS IS DEBUG LINE: <p><strong>Comment ID:</strong> {{ comment[2] }}</p> -->
+            <!-- Debug line: <p><strong>Comment ID:</strong> {{ comment[2] }}</p> -->
             <p><strong>Comment:</strong> {{ comment[0] }}</p>
             <p><strong>Created by:</strong> {{ comment[1] }}</p>
             <p><strong>Likes:</strong> {{ comment[3] }}</p>

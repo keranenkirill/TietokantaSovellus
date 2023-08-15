@@ -6,7 +6,30 @@
         body {
             font-family: "Varela Round", sans-serif;
         }
-        .conversation-button {
+        .flash-messages {
+            display: flex;
+            flex-direction: column;
+        }
+        .flash-message {
+            background-color: red;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px;
+            width: 300px;
+            text-align: center;
+        }
+        
+        .logOut-button {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: rgb(255, 111, 111);
+            color: black;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .conversation-button, .logIn-button {
             display: inline-block;
             padding: 5px 10px;
             background-color: #007bff;
@@ -17,18 +40,18 @@
             border-radius: 5px;
         }
         textarea {
-        border-radius: 8px;
-        padding: 8px;
+            border-radius: 8px;
+            padding: 8px;
         }
     </style>
 </head>
 <body>
+
+{% if session.user_id %}
     <h1>Hello!</h1>
-
-    {% if session.user_id %}
-    <p>Tsirp Tsirp! You are logged in as {{ session.username }}</p>
-    <a href="/logout">Log out</a>
-
+    <p>Tsirp Tsirp!</p>
+    <button class="logOut-button" onclick="window.location.href='/logout';">Log out</button>
+    
     <form action="/send" method="post">
         <label for="topic_content">Insert topic:</label><br>
         <textarea name="topic_content" id="topic_content" rows="1" cols="30"></textarea><br>
@@ -38,8 +61,9 @@
         
         <input type="submit" value="Create">
     </form>
-    <hr>
+    
 
+    <hr>
     {% for message in messages %}
         <div>
             <!--THIS IS DEBUG LINE: <i>Topic ID:</i> {{ message[0] }}<br> -->
@@ -50,10 +74,11 @@
             <i>Created by:</i> {{ message[3] }}
             <button class="conversation-button" onclick="window.location.href='thread/{{ message[0] }}';">Go to Conversation</button>
         </div>
-        <hr>
+    <hr>
     {% endfor %}
-
+    
 {% else %}
+    <h1>Hello!</h1>
     <form action="/login" method="post">
         <label for="username">Username:</label>
         <input type="text" name="username" id="username">
@@ -62,9 +87,31 @@
         <label for="password">Password:</label>
         <input type="password" name="password" id="password">
         <br>
-        <input type="submit" value="Log in">
+        <input class="logIn-button" type="submit" value="Log in">
     </form>
     <p>If you don't have an account, you can create a new account <a href="/register">here</a>.</p>
 {% endif %}
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="flash-messages">
+            {% for message in messages %}
+                <div class="flash-message">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        <script>
+            var flashMessages = document.querySelectorAll('.flash-message');
+            flashMessages.forEach(function(message) {
+                setTimeout(function() {
+                    message.style.display = 'none';
+                }, 3000);
+            });
+        </script>
+    {% endif %}
+{% endwith %}
+
+
 </body>
 </html>

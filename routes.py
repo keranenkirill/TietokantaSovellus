@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, request, redirect, url_for, session
+from flask import render_template, request, redirect, url_for, session, flash
 import topics, users, comments, likes
 
 
@@ -53,37 +53,34 @@ def like_comment():
 def send():
     topic_content = request.form["topic_content"]
     topic_comment = request.form["topic_comment"]
-    error_messages = []
 
     if not topic_content:
-        error_messages.append("topic content text area can't be empty")
+        flash("Topic content text area can't be empty", "error")
     if not topic_comment:
-        error_messages.append("topic comment text area can't be empty")
-    if error_messages:
-        return render_template("error.html", messages=error_messages)
-    else:
-        topics.create_topic(topic_content, topic_comment)
+        flash("Topic comment text area can't be empty", "error")
+    
+    if not topic_content or not topic_comment:
         return redirect("/")
-
-
+    
+    topics.create_topic(topic_content, topic_comment)
+    return redirect("/")
 
 
 @app.route("/add_topic_comment", methods=["POST"])
 def add_comment():
+    #TODO: ERROR handling
     user_id = users.user_id()
     comment = request.form["topic_thread_comment"]
     topic_id = request.form["topic_id"]
 
-    error_messages = []
     if not comment:
-        error_messages.append("comment text area can't be empty")
-        return render_template("error.html", messages=error_messages)
-
-    # Add the comment to the database
-    comments.insert_comment(user_id, comment, topic_id)
-
-    # Redirect back to the thread page for the corresponding topic ID
-    return redirect(url_for("topic_thread", id=topic_id))
+        flash("comment text area can't be empty")
+        return redirect(url_for("topic_thread", id=topic_id))
+    else:
+        # Add the comment to the database
+        comments.insert_comment(user_id, comment, topic_id)
+        # Redirect back to the thread page for the corresponding topic ID
+        return redirect(url_for("topic_thread", id=topic_id))
 
 
 
@@ -102,7 +99,10 @@ def login():
             session['username'] = username 
             return redirect("/")
         else:
-            return render_template("error.html", message="Incorrect username or password")
+            flash('Invalid username or password')
+            return redirect("/")
+            
+            #return render_template("error.html", message="Incorrect username or password")
 
 
 
@@ -129,34 +129,36 @@ def register():
         username = request.form["username"]
         password1 = request.form["password1"]
         password2 = request.form["password2"]
-        error_messages = []
 
-        if not firstname:
-            error_messages.append("First name is required")
-        if not lastname:
-            error_messages.append("Last name is required")
-        if not age:
-            error_messages.append("Age is required")
+        if not firstname or firstname == '':
+            flash("First name is required")
+        if not lastname or lastname == '':
+            flash("Last name is required")
+        if not age or age == '':
+            flash("Age is required")
         else:
             try:
                 age = int(age)
             except ValueError:
-                error_messages.append("Age must be a number")
-        if not city:
-            error_messages.append("City is required")
-        if not username:
-            error_messages.append("Username is required")
+                flash("Age must be a number")
+        if not city or city == '':
+            flash("City is required")
+        if not username or username == '':
+            flash("Username is required")
+        if not password1 or password1 == '':
+            flash("Password is required")
+        if not password2 or password2 == '':
+            flash("Password is required")
         if password1 != password2:
-            error_messages.append("Passwords do not match")
-        if error_messages:
-            return render_template("error.html", messages=error_messages)
+            flash("Passwords do not match")
         else:
-            is_username_error = users.register(firstname, lastname, age, city, username, password1)
-            if is_username_error == False:
-                return render_template("error.html", messages=[is_username_error])  
-            else:
-                return redirect("/")
+            registration_result = users.register(firstname, lastname, age, city, username, password1)
+            if registration_result == False:
                 
-            
+                flash(registration_result)
+                return render_template("register.html")
+            if registration_result == True:
+                print("Successfully registered:", username)
+                return render_template("index.html")
 
             
