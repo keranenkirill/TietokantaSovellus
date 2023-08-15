@@ -6,10 +6,12 @@
         body {
             font-family: "Varela Round", sans-serif;
         }
+
         .flash-messages {
             display: flex;
             flex-direction: column;
         }
+
         .flash-message {
             background-color: red;
             color: white;
@@ -19,6 +21,16 @@
             width: 300px;
             text-align: center;
         }
+
+        .CreateButton {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: rgb(155, 243, 155);
+            color: black;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
         .conversation-button {
             display: inline-block;
             padding: 5px 10px;
@@ -29,65 +41,90 @@
             cursor: pointer;
             border-radius: 5px;
         }
+
         textarea {
             border-radius: 8px;
             padding: 8px;
+            border: 3px solid;
+        }
+
+        /* Additional styles for comments */
+        .comment {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 3px solid #ccc;
+            border-radius: 10px;
+        }
+
+        /* Style for the navigation */
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #f4f4f4;
+        }
+
+        nav button,
+        nav a {
+            margin-right: 10px;
         }
     </style>
 </head>
 <body>
-    <button class="conversation-button" onclick="window.location.href='/'">Back</button> |
-    <a>{{ session.username }}</a>
-    <header>
-        <p>{{ content }}</p>
-        
-        <!-- Form to add a new comment -->
-        <form action="/add_topic_comment" method="post">
-            <input type="hidden" name="topic_id" value="{{ topic_id }}">
-            <label for="topic_thread_comment">Insert comment:</label><br>
-            <textarea name="topic_thread_comment" id="topic_thread_comment" rows="3" cols="30"></textarea><br>
-            <input type="submit" value="Create">
-        </form>
-        <hr>
+    <nav>
+        <button class="conversation-button" onclick="window.location.href='/';">Back</button>
+        <a>{{ session.username }}</a>
+    </nav>
 
-        <!-- Flash messages display -->
+    <main>
+        <header>
+            <p>{{ content }}</p>
+            
+            <form action="/add_topic_comment" method="post">
+                <input type="hidden" name="topic_id" value="{{ topic_id }}">
+                <label for="topic_thread_comment">Insert comment:</label><br>
+                <textarea name="topic_thread_comment" id="topic_thread_comment" rows="3" cols="30"></textarea><br>
+                <input class="CreateButton" type="submit" value="Create">
+            </form>
+
         {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <div class="flash-messages">
-            {% for message in messages %}
-            <div class="flash-message">
-                {{ message }}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for message in messages %}
+                        <div class="flash-message">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <script>
+                    var flashMessages = document.querySelectorAll('.flash-message');
+                    flashMessages.forEach(function(message) {
+                        setTimeout(function() {
+                            message.style.display = 'none';
+                        }, 3000);
+                    });
+                </script>
+            {% endif %}
+        {% endwith %}
+        <hr>
+            {% for comment in comments %}
+            <div class="comment">
+                <p><strong>Comment:</strong> {{ comment[0] }}</p>
+                <p><strong>Created by:</strong> {{ comment[1] }}</p>
+                <p><strong>Likes:</strong> {{ comment[3] }}</p>
+                <form action="/like_comment" method="post">
+                    <input type="hidden" name="topic_id" value="{{ topic_id }}">
+                    <input type="hidden" name="comment_id" value="{{ comment[2] }}">
+                    <input type="hidden" name="user_id" value="{{ session.user_id }}">
+                    <button class="conversation-button" type="submit" name="like" value="like">Like</button>
+                    <button class="conversation-button" type="submit" name="dislike" value="dislike">Dislike</button>
+                </form>
             </div>
             {% endfor %}
-        </div>
-        <script>
-            var flashMessages = document.querySelectorAll('.flash-message');
-            flashMessages.forEach(function(message) {
-                setTimeout(function() {
-                    message.style.display = 'none';
-                }, 3000);
-            });
-        </script>
-        {% endif %}
-        {% endwith %}
+        </header>
+    </main>
 
-        <!-- Display comments -->
-        {% for comment in comments %}
-        <div>
-            <!-- Debug line: <p><strong>Comment ID:</strong> {{ comment[2] }}</p> -->
-            <p><strong>Comment:</strong> {{ comment[0] }}</p>
-            <p><strong>Created by:</strong> {{ comment[1] }}</p>
-            <p><strong>Likes:</strong> {{ comment[3] }}</p>
-            <form action="/like_comment" method="post">
-                <input type="hidden" name="topic_id" value="{{ topic_id }}">
-                <input type="hidden" name="comment_id" value="{{ comment[2] }}">
-                <input type="hidden" name="user_id" value="{{ session.user_id }}">
-                <button class="conversation-button" type="submit" name="like" value="like">Like</button>
-                <button class="conversation-button" type="submit" name="dislike" value="dislike">Dislike</button>
-            </form>
-        </div>
-        <hr>
-        {% endfor %}
-    </header>
+    <script src="OT-P/fash_error_msg.js"></script>
 </body>
 </html>

@@ -19,12 +19,21 @@
             width: 300px;
             text-align: center;
         }
-        
+
         .logOut-button {
             display: inline-block;
             padding: 5px 10px;
             background-color: rgb(255, 111, 111);
             color: black;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .CreateButton {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: rgb(155, 243, 155);
+            
             cursor: pointer;
             border-radius: 5px;
         }
@@ -39,18 +48,47 @@
             cursor: pointer;
             border-radius: 5px;
         }
-        textarea {
+
+        /* Retain .topic styling */
+        .topic {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 3px solid #ccc;
+            border-radius: 10px;
+        }
+
+        textarea, .text_area {
             border-radius: 8px;
             padding: 8px;
+            border: 3px solid;
+        }
+        
+        /* Additional styles for navigation */
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #f4f4f4;
+        }
+
+        nav button,
+        nav a {
+            margin-right: 10px;
         }
     </style>
 </head>
 <body>
 
+
+
 {% if session.user_id %}
     <h1>Hello!</h1>
     <p>Tsirp Tsirp!</p>
-    <button class="logOut-button" onclick="window.location.href='/logout';">Log out</button>
+    <nav>
+        <button class="logOut-button" onclick="window.location.href='/logout';">Log out</button>
+        <a>{{ session.username }}</a>
+    </nav>
     
     <form action="/send" method="post">
         <label for="topic_content">Insert topic:</label><br>
@@ -59,14 +97,13 @@
         <label for="topic_comment">Insert first comment:</label><br>
         <textarea name="topic_comment" id="topic_comment" rows="3" cols="30"></textarea><br>
         
-        <input type="submit" value="Create">
+        <input class="CreateButton" type="submit" value="Create">
     </form>
-    
 
     <hr>
     {% for message in messages %}
-        <div>
-            <!--THIS IS DEBUG LINE: <i>Topic ID:</i> {{ message[0] }}<br> -->
+        <div class="topic">
+            <!-- THIS IS DEBUG LINE: <i>Topic ID:</i> {{ message[0] }}<br> -->
             
             <i>Topic:</i> {{ message[1] }}<br>
             <i>Comment:</i> {{ message[2] }}<br>
@@ -74,18 +111,17 @@
             <i>Created by:</i> {{ message[3] }}
             <button class="conversation-button" onclick="window.location.href='thread/{{ message[0] }}';">Go to Conversation</button>
         </div>
-    <hr>
     {% endfor %}
     
 {% else %}
     <h1>Hello!</h1>
     <form action="/login" method="post">
         <label for="username">Username:</label>
-        <input type="text" name="username" id="username">
+        <input class="text_area" type="text" name="username" id="username">
         <br>
         <br>
         <label for="password">Password:</label>
-        <input type="password" name="password" id="password">
+        <input class="text_area" type="password" name="password" id="password">
         <br>
         <input class="logIn-button" type="submit" value="Log in">
     </form>
@@ -111,7 +147,6 @@
         </script>
     {% endif %}
 {% endwith %}
-
 
 </body>
 </html>
