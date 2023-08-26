@@ -40,3 +40,12 @@ def create_topic(topic, topic_comment):
         db.session.execute(sql, {"user_id": user_id, "topic_comment": topic_comment, "timestamp": timestamp, "topic_id": topic_id_res[0]})  # Change "content" to "topic_comment"
         db.session.commit()
         return True
+
+def get_all_topics_by_userid(user_id):
+    sql = text("SELECT t.topic_id, t.topic_content FROM otp_users u JOIN otp_topics t ON u.user_id = t.user_id WHERE u.user_id = :user_id;")
+    result = db.session.execute(sql, {"user_id": user_id}) 
+    users_topics_list = result.fetchall()
+    return users_topics_list
+
+
+
