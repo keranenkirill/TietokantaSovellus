@@ -7,7 +7,7 @@
 
 Sovelluksen tarkoituksena on tarjota käyttäjälle keskusteluketju-alusta, jossa voidaan käsitellä eri puheenaiheita.
 
-## Perusversion toiminallisuudet (07.08.2023) 
+## Perusversion toiminallisuudet (26.08.2023) 
 (tämä kappale päivitetään projektin edetessä)
 
 
@@ -25,6 +25,10 @@ Sovelluksen tarkoituksena on tarjota käyttäjälle keskusteluketju-alusta, joss
 - Redirect -linkki etusivulla johta keskusteluketjuun, jossa näkyy aihe, mahdollisuus lisätä kommentti, sekä keskusteluketjun kaikki kommentit. (uusin kommentti alhaalla)
 - Kommenteille on mahdollista antaa joko positiivinen tykkäys tai negatiivinen tykkäys
    - käyttäjä ei voi antaa monta tykkäystä peräkkäin
+- käyttäjällä on oma etusivu, jossa:
+   - *)mahdollisuus tarkastella kaikkia omia puheenaiheita
+   - *)kommentteja
+   - toiminallisuus muokata tietojaan (etunimi, sukunimi, ikä, kaupunki ja käyttäjänimi) 
 
 - Neljä tietokanta-taulua:
    - otp_users
@@ -32,7 +36,8 @@ Sovelluksen tarkoituksena on tarjota käyttäjälle keskusteluketju-alusta, joss
    - otp_comments
    - otp_user_reactions
 
-
+*) 
+Edellä olevien toiminallisuuksien nääkymä toistaiseksi puutteelinen, ei vielä olla tultu johtopäätökseen miten olisi järkevää esittää data (issueen saa antaa ehdotuksia)
   
 
 ## Perusversion tavoite-toiminallisuudet
@@ -50,6 +55,10 @@ Sovelluksen tarkoituksena on tarjota käyttäjälle keskusteluketju-alusta, joss
 - palvelun etusivulla myös toiminallisuus, jossa näkyy suosituimmat puheenaiheet paikkakunnan, tykkäysten, sekä kommenttien määrän mukaan
 - palvelun etusivulla toiminallisuus, jolla voi hakusanalla hakea keskusteluaiheita ja keskusteluja
 
-
-
+### tuotannon kehitysideoita/ -taskeja
+- mahdollisuus muuttaa omaa salasanaa
+- käyttäjän etusivun kommenttien ja puheenaiheiden looginen esitystapa
+- palvelun etusivulle mahdollisuus sorttaamaan keskusteluketjujen näkymiä
+- kuvien lisäämisen mahdollistaminen keskusteluketjuihin
+- visuaalisia parannuksia
 
