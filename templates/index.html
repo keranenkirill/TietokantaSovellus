@@ -38,7 +38,7 @@
             border-radius: 5px;
         }
 
-        .conversation-button, .logIn-button {
+        .conversation-button, .logIn-button, .usrPage-button {
             display: inline-block;
             padding: 5px 10px;
             background-color: #007bff;
@@ -83,12 +83,14 @@
 
 
 {% if session.user_id %}
-    <h1>Hello!</h1>
-    <p>Tsirp Tsirp!</p>
+    
     <nav>
         <button class="logOut-button" onclick="window.location.href='/logout';">Log out</button>
+        <button class="usrPage-button" onclick="window.location.href='/{{ session.username }}';">Go to profile</button>
         <a>{{ session.username }}</a>
     </nav>
+    <h1>Hello!</h1>
+    <p>Tsirp Tsirp!</p>
     
     <form action="/send" method="post">
         <label for="topic_content">Insert topic:</label><br>
@@ -125,7 +127,8 @@
         <br>
         <input class="logIn-button" type="submit" value="Log in">
     </form>
-    <p>If you don't have an account, you can create a new account <a href="/register">here</a>.</p>
+    
+    <p>If you don't have an account, you can create a new account <button class="usrPage-button" onclick="window.location.href='/register';">here</button></p>
 {% endif %}
 
 {% with messages = get_flashed_messages() %}
