@@ -7,11 +7,8 @@ import topics, users, comments, likes
 
 @app.route("/")
 def index():
-   list = comments.get_topics_comment()
-   for i in list:
-       print(i)
-   return render_template("index.html", count=len(list), messages=list)
-
+    comments_list = comments.get_topics_comment()
+    return render_template("index.html", count=len(comments_list), messages=comments_list)
 
 
 
@@ -27,7 +24,6 @@ def topic_thread(id):
 
     comments_list = comments.get_all_comments_by_topic(int(id))
     return render_template("thread.html", topic_id=str(id), content=topic_content, comments=comments_list)
-
 
 
 
@@ -48,6 +44,19 @@ def like_comment():
 
 
 
+@app.route("/<usrnm>")
+def userpage(usrnm):
+    usrnm = session.get("username")
+    user_id = session.get("user_id")
+
+    #return all user information about user who is currently logged in (age, f.name, l.name, homecity)
+    user_info_list = users.user_information(user_id)
+    users_topics_list = topics.get_all_topics_by_userid(user_id)
+    users_comments_list = comments.get_all_comments_by_userid(user_id)
+
+    return render_template("users_page.html", users_info=user_info_list, users_comments=users_comments_list, users_topics=users_topics_list)
+
+
 
 @app.route("/send", methods=["POST"])
 def send():
@@ -64,6 +73,7 @@ def send():
     
     topics.create_topic(topic_content, topic_comment)
     return redirect("/")
+
 
 
 @app.route("/add_topic_comment", methods=["POST"])
@@ -84,36 +94,24 @@ def add_comment():
 
 
 
-
-
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    # TODO: show proper error if inserted wrong username fe. inserted username is not in database
-            # show proper error if password incorrect for inserted username
-            # show proper error if user did not insert username and password 
-
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
         if users.login(username, password):
-            session['username'] = username 
-            return redirect("/")
+            session['username'] = username
         else:
             flash('Invalid username or password')
-            return redirect("/")
-            
-            #return render_template("error.html", message="Incorrect username or password")
 
+    return redirect("/")
 
 
 
 @app.route("/logout")
 def logout():
-    # TODO: show information, that user logged out and session deleted
-
     users.logout()
     return redirect("/")
-
 
 
 
@@ -161,4 +159,32 @@ def register():
                 print("Successfully registered:", username)
                 return render_template("index.html")
 
-            
+
+
+@app.route("/upd_user_info", methods=["POST"])
+def upd_usr_info():
+    user_id = users.user_id()
+
+    firstname = request.form["firstname"]
+    lastname = request.form["lastname"]
+    city = request.form["city"]
+    age = request.form["age"]
+    username = request.form["username"]
+
+    if firstname: users.update_users_fname(user_id, firstname)
+    else: pass
+
+    if lastname: users.update_users_lname(user_id, lastname)
+    else: pass
+
+    if city: users.update_users_city(user_id, city)
+    else: pass
+
+    if age: users.update_users_age(user_id, age)
+    else: pass
+
+    if username: users.update_users_usrnm(user_id, username)
+    else: pass
+    
+    usrnm = session.get("username")
+    return userpage(usrnm)
