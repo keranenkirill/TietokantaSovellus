@@ -30,39 +30,70 @@
             cursor: pointer;
             border-radius: 5px;
         }
-        textarea {
+
+        .backButton{
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .CreateButton {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: rgb(155, 243, 155);
+            
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        input, .text_area {
             border-radius: 8px;
             padding: 8px;
+            border: 3px solid;
         }
+
+
     </style>
 </head>
 <body>
     <form action="/register" method="post">
         <label for="firstname">Firstname:</label><br>
         <input type="text" name="firstname"><br>
+        <br>
 
         <label for="lastname">Lastname:</label><br>
         <input type="text" name="lastname"><br>
+        <br>
 
         <label for="age">Age:</label><br>
         <input type="text" name="age"><br>
+        <br>
 
         <label for="city">Hometown:</label><br>
         <input type="text" name="city"><br>
+        <br>
 
         <label for="username">Username:</label><br>
         <input type="text" name="username"><br>
+        <br>
 
         <label for="password1">Password:</label><br>
         <input type="password" name="password1"><br>
+        <br>
 
         <label for="password2">Password again:</label><br>
         <input type="password" name="password2"><br>
+        <br>
 
-        <button type="submit">Create account</button>
+        <button class="CreateButton" type="submit">Create account</button>
     </form>
 
-    <p>Go back to the login page <a href="/">here</a>.</p>
+    <p>Go back to the login page <button class="backButton" onclick="window.location.href='/';">here</button></p>
 
     {% with messages = get_flashed_messages() %}  
     {% if messages %}  
