@@ -22,3 +22,10 @@ def get_all_comments_by_topic(topic_id):
     result = db.session.execute(sql, {"topic_id": topic_id}) 
     comments_list = result.fetchall()
     return comments_list
+
+
+def get_all_comments_by_userid(user_id):
+    sql = text("SELECT c.comment_id, c.comment_content, c.sent_at, c.topic_id FROM otp_users u JOIN otp_comments c ON u.user_id = c.user_id WHERE u.user_id = :user_id;")
+    result = db.session.execute(sql, {"user_id": user_id}) 
+    users_comments_list = result.fetchall()
+    return users_comments_list
