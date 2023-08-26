@@ -1,5 +1,5 @@
 from db import db
-from flask import session
+from flask import session, flash
 from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy.sql import text
 import traceback
@@ -22,6 +22,56 @@ def login(username, password):
         else:
             return False
 
+
+
+#TODO: update fname, lname, city, age and username into db columns by user_id
+def update_users_fname(user_id, fnm): 
+    upd_usr_fnm = text("UPDATE otp_users SET firstname = :firstname WHERE user_id = :user_id")
+    db.session.execute(upd_usr_fnm, {"user_id": user_id, "firstname": fnm})
+    db.session.commit()
+
+def update_users_lname(user_id, lnm):
+    upd_usr_lnm = text("UPDATE otp_users SET lastname = :lastname WHERE user_id = :user_id")
+    db.session.execute(upd_usr_lnm, {"user_id": user_id, "lastname": lnm})
+    db.session.commit()
+
+def update_users_city(user_id, cty):
+    upd_usr_cty = text("UPDATE otp_users SET hometown = :hometown WHERE user_id = :user_id")
+    db.session.execute(upd_usr_cty, {"user_id": user_id, "hometown": cty})
+    db.session.commit()
+
+def update_users_age(user_id, age):
+    upd_usr_age = text("UPDATE otp_users SET age = :age WHERE user_id = :user_id")
+    db.session.execute(upd_usr_age, {"user_id": user_id, "age": age})
+    db.session.commit()
+
+def update_users_usrnm(user_id, usrnm):
+    user_query = text("SELECT user_id FROM otp_users WHERE username = :username")
+    existing_user = db.session.execute(user_query, {"username": usrnm}).fetchone()
+    if existing_user:
+        flash("Username is already in use.")
+    else:
+        try:
+            upd_usr_usrnm = text("UPDATE otp_users SET username = :username WHERE user_id = :user_id")
+            db.session.execute(upd_usr_usrnm, {"user_id": user_id, "username": usrnm})
+            db.session.commit()
+            session["username"] = usrnm
+        except Exception as e:
+            print("An error occurred:", str(e))
+
+
+
+
+
+def user_information(user_id):
+
+    # Retrieve all user information using the user_id
+    user_info_query = text("SELECT username, user_id, age, hometown, firstname, lastname FROM otp_users WHERE user_id = :user_id")
+    user_info = db.session.execute(user_info_query, {"user_id": user_id}).fetchall()
+
+    return user_info
+    #else:
+       # print("User information not found.")
 
 
 
