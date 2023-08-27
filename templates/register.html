@@ -4,113 +4,132 @@
     <title>Registration Form</title>
     <style>
         body {
-            font-family: "Varela Round", sans-serif;
-        }
-        .flash-messages {
+            font-family: "Arial", sans-serif;
             display: flex;
-            flex-direction: column;
-            
-        }
-        .flash-message {
-            background-color: red;
-            color: white;
-            padding: 10px;
-            border-radius: 10px;
-            margin: 10px;
-            width: 300px;
-            text-align: center;
-        }
-        .conversation-button {
-            display: inline-block;
-            padding: 5px 10px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            background-color: #f2f2f2;
         }
 
-        .backButton{
-            display: inline-block;
-            padding: 5px 10px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
+        .container {
+            width: 50%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .CreateButton, .backButton {
+            padding: 8px 16px;
             border: none;
-            cursor: pointer;
             border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
         }
 
         .CreateButton {
-            display: inline-block;
-            padding: 5px 10px;
             background-color: rgb(155, 243, 155);
-            
-            cursor: pointer;
-            border-radius: 5px;
+        }
+
+        .backButton {
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+        }
+
+        .backButton:hover {
+            background-color: #0056b3;
         }
 
         input, .text_area {
             border-radius: 8px;
-            padding: 8px;
+            padding: 10px;
             border: 3px solid;
+            width: 50%;
+            margin-bottom: 10px;
         }
 
+        .flash-message {
+            background-color: red;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px;
+            text-align: center;
+        }
+
+        .flash-messages {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .conversation-button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .conversation-button:hover {
+            background-color: #0056b3;
+        }
 
     </style>
 </head>
 <body>
-    <form action="/register" method="post">
-        <label for="firstname">Firstname:</label><br>
-        <input type="text" name="firstname"><br>
-        <br>
+    <div class="container">
+        <form action="/register" method="post">
+            <label for="firstname">Firstname:</label><br>
+            <input type="text" name="firstname"><br><br>
 
-        <label for="lastname">Lastname:</label><br>
-        <input type="text" name="lastname"><br>
-        <br>
+            <label for="lastname">Lastname:</label><br>
+            <input type="text" name="lastname"><br><br>
 
-        <label for="age">Age:</label><br>
-        <input type="text" name="age"><br>
-        <br>
+            <label for="age">Age:</label><br>
+            <input type="text" name="age"><br><br>
 
-        <label for="city">Hometown:</label><br>
-        <input type="text" name="city"><br>
-        <br>
+            <label for="city">Hometown:</label><br>
+            <input type="text" name="city"><br><br>
 
-        <label for="username">Username:</label><br>
-        <input type="text" name="username"><br>
-        <br>
+            <label for="username">Username:</label><br>
+            <input type="text" name="username"><br><br>
 
-        <label for="password1">Password:</label><br>
-        <input type="password" name="password1"><br>
-        <br>
+            <label for="password1">Password:</label><br>
+            <input type="password" name="password1"><br><br>
 
-        <label for="password2">Password again:</label><br>
-        <input type="password" name="password2"><br>
-        <br>
+            <label for="password2">Password again:</label><br>
+            <input type="password" name="password2"><br><br>
 
-        <button class="CreateButton" type="submit">Create account</button>
-    </form>
+            <button class="CreateButton" type="submit">Create account</button>
+        </form>
 
-    <p>Go back to the login page <button class="backButton" onclick="window.location.href='/';">here</button></p>
+        <p>Go back to the login page <button class="backButton" onclick="window.location.href='/';">here</button></p>
 
-    {% with messages = get_flashed_messages() %}  
-    {% if messages %}  
-        {% for message in messages %}  
-            <div class="flash-message">
-                {{ message }}
-            </div>  
-        {% endfor %}  
-        <script>
-            var flashMessages = document.querySelectorAll('.flash-message');
-            flashMessages.forEach(function(message) {
-                setTimeout(function() {
-                    message.style.display = 'none';
-                }, 3000);
-            });
-        </script>
-    {% endif %}  
-{% endwith %}
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for message in messages %}
+                    <div class="flash-message">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+            <script>
+                var flashMessages = document.querySelectorAll('.flash-message');
+                flashMessages.forEach(function(message) {
+                    setTimeout(function() {
+                        message.style.display = 'none';
+                    }, 3000);
+                });
+            </script>
+        {% endif %}
+        {% endwith %}
+    </div>
 </body>
 </html>

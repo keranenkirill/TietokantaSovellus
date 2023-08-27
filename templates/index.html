@@ -4,152 +4,189 @@
     <title>.TsirpTsirp.</title>
     <style>
         body {
-            font-family: "Varela Round", sans-serif;
-        }
-        .flash-messages {
+            font-family: "Arial", sans-serif;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            background-color: #f2f2f2;
         }
-        .flash-message {
-            background-color: red;
-            color: white;
-            padding: 10px;
+
+
+
+        .container {
+            width: 50%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
             border-radius: 10px;
-            margin: 10px;
-            width: 300px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
 
+        .logOut-button, .CreateButton, .conversation-button, .logIn-button, .usrPage-button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
         .logOut-button {
-            display: inline-block;
-            padding: 5px 10px;
             background-color: rgb(255, 111, 111);
             color: black;
-            cursor: pointer;
-            border-radius: 5px;
         }
 
         .CreateButton {
-            display: inline-block;
-            padding: 5px 10px;
             background-color: rgb(155, 243, 155);
-            
-            cursor: pointer;
-            border-radius: 5px;
         }
 
         .conversation-button, .logIn-button, .usrPage-button {
-            display: inline-block;
-            padding: 5px 10px;
             background-color: #007bff;
             color: white;
             text-decoration: none;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
         }
 
-        /* Retain .topic styling */
+        .conversation-button:hover, .logIn-button:hover, .usrPage-button:hover {
+            background-color: #0056b3;
+        }
+
+        h1, p {
+            margin: 10px 0;
+        }
+
+        textarea, .text_area {
+            border-radius: 8px;
+            padding: 10px;
+            border: 3px solid;
+            width: 50%;
+            margin-bottom: 10px;
+        }
+
         .topic {
             margin-bottom: 20px;
             padding: 10px;
             border: 3px solid #ccc;
             border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
         }
 
-        textarea, .text_area {
-            border-radius: 8px;
-            padding: 8px;
-            border: 3px solid;
+        .topic strong {
+            margin-bottom: 5px;
+            font-size: 1.2em;
         }
-        
-        /* Additional styles for navigation */
+
+        .topic-details {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .created-by {
+            flex: 1;
+            text-align: left;
+            color: #777;
+        }
+
+        .conversation-button-container {
+            flex: 0;
+        }
+
+        .flash-message {
+            background-color: red;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px;
+            text-align: center;
+        }
+
         nav {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            padding: 10px;
-            background-color: #f4f4f4;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 3px solid #ccc;
+            margin-bottom: 20px;
         }
 
-        nav button,
-        nav a {
-            margin-right: 10px;
+        nav button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
+<div class="container">
+    {% if session.user_id %}
+        <nav>
+            <button class="logOut-button" onclick="window.location.href='/logout';">Log out</button>
+            <button class="usrPage-button" onclick="window.location.href='/{{ session.username }}';">Go to profile</button>
+            <a>{{ session.username }}</a>
+        </nav>
+        <form class="topic_comment_form" action="/send" method="post">
+            <label for="topic_content">Insert topic:</label><br>
+            <textarea name="topic_content" id="topic_content" rows="1"></textarea><br>
+            <label for="topic_comment">Insert first comment:</label><br>
+            <textarea name="topic_comment" id="topic_comment" rows="3"></textarea><br>
+            <input class="CreateButton" type="submit" value="Create">
+        </form>
 
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for message in messages %}
+                    <div class="flash-message">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+            <script>
+                var flashMessages = document.querySelectorAll('.flash-message');
+                flashMessages.forEach(function(message) {
+                    setTimeout(function() {
+                        message.style.display = 'none';
+                    }, 3000);
+                });
+            </script>
+        {% endif %}
+    {% endwith %}
 
-
-{% if session.user_id %}
-    
-    <nav>
-        <button class="logOut-button" onclick="window.location.href='/logout';">Log out</button>
-        <button class="usrPage-button" onclick="window.location.href='/{{ session.username }}';">Go to profile</button>
-        <a>{{ session.username }}</a>
-    </nav>
-    <h1>Hello!</h1>
-    <p>Tsirp Tsirp!</p>
-    
-    <form action="/send" method="post">
-        <label for="topic_content">Insert topic:</label><br>
-        <textarea name="topic_content" id="topic_content" rows="1" cols="30"></textarea><br>
-        
-        <label for="topic_comment">Insert first comment:</label><br>
-        <textarea name="topic_comment" id="topic_comment" rows="3" cols="30"></textarea><br>
-        
-        <input class="CreateButton" type="submit" value="Create">
-    </form>
-
-    <hr>
-    {% for message in messages %}
-        <div class="topic">
-            <!-- THIS IS DEBUG LINE: <i>Topic ID:</i> {{ message[0] }}<br> -->
-            
-            <i>Topic:</i> {{ message[1] }}<br>
-            <i>Comment:</i> {{ message[2] }}<br>
-            <p>
-            <i>Created by:</i> {{ message[3] }}
-            <button class="conversation-button" onclick="window.location.href='thread/{{ message[0] }}';">Go to Conversation</button>
-        </div>
-    {% endfor %}
-    
-{% else %}
-    <h1>Hello!</h1>
-    <form action="/login" method="post">
-        <label for="username">Username:</label>
-        <input class="text_area" type="text" name="username" id="username">
-        <br>
-        <br>
-        <label for="password">Password:</label>
-        <input class="text_area" type="password" name="password" id="password">
-        <br>
-        <input class="logIn-button" type="submit" value="Log in">
-    </form>
-    
-    <p>If you don't have an account, you can create a new account <button class="usrPage-button" onclick="window.location.href='/register';">here</button></p>
-{% endif %}
-
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        <div class="flash-messages">
-            {% for message in messages %}
-                <div class="flash-message">
-                    {{ message }}
+        {% for message in messages %}
+            <div class="topic">
+                <h3>{{ message[1] }}</h3>
+                
+                {{ message[2] }}<br>
+                <div class="topic-details">
+                    <div class="created-by">
+                        {{ message[3] }}
+                    </div>
+                    <div class="conversation-button-container">
+                        <button class="conversation-button" onclick="window.location.href='thread/{{ message[0] }}';">To thread</button>
+                    </div>
                 </div>
-            {% endfor %}
-        </div>
-        <script>
-            var flashMessages = document.querySelectorAll('.flash-message');
-            flashMessages.forEach(function(message) {
-                setTimeout(function() {
-                    message.style.display = 'none';
-                }, 3000);
-            });
-        </script>
+            </div>
+        {% endfor %}
+    {% else %}
+        <h1>Hello!</h1>
+        <form action="/login" method="post">
+            <label for="username">Username:</label><br>
+            <input class="text_area" type="text" name="username" id="username"><br>
+            <label for="password">Password:</label><br>
+            <input class="text_area" type="password" name="password" id="password"><br>
+            <input class="logIn-button" type="submit" value="Log in">
+        </form>
+        <p>If you don't have an account, you can create a new account <button class="usrPage-button" onclick="window.location.href='/register';">here</button></p>
     {% endif %}
-{% endwith %}
-
+    
+</div>
 </body>
 </html>

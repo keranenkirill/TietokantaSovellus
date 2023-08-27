@@ -3,27 +3,74 @@
 <head>
     <title>User Information</title>
     <style>
-        /* Add your CSS styles here */
         body {
-            font-family: "Varela Round", sans-serif;
+            font-family: "Arial", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            background-color: #f2f2f2;
         }
 
-        .user_info {
-            margin-bottom: 20px;
+        .container {
+            width: 50%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
 
         .backButton, .settingsButton, .saveSettings {
-            display: inline-block;
-            padding: 5px 10px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .backButton {
             background-color: #007bff;
             color: white;
             text-decoration: none;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
         }
 
-        .settingsForm, .userInfoUpdate{
+        .settingsButton, .saveSettings {
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+        }
+
+        .settingsButton:hover, .saveSettings:hover {
+            background-color: #0056b3;
+        }
+
+        .user_info, .user_comments {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .user_info i {
+            font-style: italic;
+            margin-right: 5px;
+        }
+
+        h2, p {
+            margin: 10px 0;
+        }
+
+        input {
+            border-radius: 8px;
+            padding: 10px;
+            border: 1px solid;
+            width: 50%;
+            margin-bottom: 10px;
+        }
+
+        .userInfoUpdate {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -34,134 +81,101 @@
             border: 3px solid #ccc;
             border-radius: 10px;
         }
-        
+
         .save_info {
             color: orange;
             font-size: 13px;
             font-weight: bold;
         }
-
-        input {
-            border-radius: 8px;
-            padding: 8px;
-            border: 3px solid;
-        }
-
         nav {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            padding: 10px;
-            background-color: #f4f4f4;
-        }
-
-        nav button,
-        nav a {
-            margin-right: 10px;
-        }
-
-
-        .user_comments {
-            background-color: #f4f4f4;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-
-        .user_comments i {
-            font-style: italic;
-            margin-right: 5px;
-        }
-
-        .user_comments p {
-            margin: 5px 0;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 3px solid #ccc;
+            margin-bottom: 20px;
         }
 
         /* Add more CSS styles as needed */
     </style>
 </head>
-{% if session.user_id %}
-   <body>
+<body>
+    <div class="container">
+        {% if session.user_id %}
 
-      <!-- Add the settings button and form here -->
-      <nav>
-         <button class="backButton" onclick="window.location.href='/';">Back</button>
-         <button class="settingsButton" id="settingsButton">Settings</button>
-         <a>{{ session.username }}</a>
-     </nav>
-      
-      <div class= "settingsForm" id="settingsForm" style="display: none;">
-            <h2>Settings</h2>
-         {% for info in users_info %}
-         <div class="user_info">
-            <i>username:</i> {{ info[0] }}<br>
-            <i>age:</i> {{ info[2] }}<br>
-            <i>hometown:</i> {{ info[3] }}<br>
-            <i>firstname:</i> {{ info[4] }}<br>
-            <i>lastname:</i> {{ info[5] }}<br>
-         </div >
-         {% endfor %}
-         
-         <div class="userInfoUpdate">
-            <p>Change here your user information.</p>
-            <!--<label for="username">Username:</label>-->
-            <!--<input type="text" id="username" name="username"><br>-->
+            <nav>
+                <button class="backButton" onclick="window.location.href='/';">Back</button>
+                <button class="settingsButton" id="settingsButton">Settings</button>
+                <a>{{ session.username }}</a>
+            </nav>
 
-            <form action="/upd_user_info" method="post">
-               <label for="firstname">First Name:</label><br>
-               <input type="text" id="firstname" name="firstname"><br>
-               
-               <label for="lastname">Last Name:</label><br>
-               <input type="text" id="lastname" name="lastname"><br>
-               
-               <label for="city">City:</label><br>
-               <input type="text" id="city" name="city"><br>
-               
-               <label for="age">Age:</label><br>
-               <input type="text" id="age" name="age"><br>
+            <div class="settingsForm" id="settingsForm" style="display: none;">
+                <h2>Settings</h2>
+                {% for info in users_info %}
+                <div class="user_info">
+                    <i>username:</i> {{ info[0] }}<br>
+                    <i>age:</i> {{ info[2] }}<br>
+                    <i>hometown:</i> {{ info[3] }}<br>
+                    <i>firstname:</i> {{ info[4] }}<br>
+                    <i>lastname:</i> {{ info[5] }}<br>
+                </div >
+                {% endfor %}
 
-               <label for="age">Username:</label><br>
-               <input type="text" id="username" name="username"><br>
-               
-               <button class ="saveSettings" id="saveSettings">Save</button></div>
-               <p class="save_info">If you change only one field in your information, you can leave the rest of the fields empty and click "Save".</p>
-            </form>
-            
-            
-      </div>
-      
+                <div class="userInfoUpdate">
+                    <p>Change here your user information.</p>
+                    <form action="/upd_user_info" method="post">
+                        <label for="firstname">First Name:</label><br>
+                        <input type="text" id="firstname" name="firstname"><br>
 
-      <p>Users topics:</p><br>
-      {% for topic in users_topics %}
-      <div class="user_comments">
-         <i></i> {{ topic }}<br>
-      </div>
-      {% endfor %}
+                        <label for="lastname">Last Name:</label><br>
+                        <input type="text" id="lastname" name="lastname"><br>
 
-      <p>Users comments:</p><br>
-      {% for comment in users_comments %}
-      <div class="user_comments">
-         <i></i> {{ comment }}<br>
-      </div>
-      {% endfor %}
+                        <label for="city">City:</label><br>
+                        <input type="text" id="city" name="city"><br>
 
-      <script>
-          document.addEventListener("DOMContentLoaded", function() {
-              const settingsButton = document.getElementById("settingsButton");
-              const settingsForm = document.getElementById("settingsForm");
+                        <label for="age">Age:</label><br>
+                        <input type="text" id="age" name="age"><br>
 
-              settingsButton.addEventListener("click", function() {
-                  if (settingsForm.style.display === "none") {
-                      settingsForm.style.display = "block";
-                      settingsButton.textContent = "Close Settings";
-                  } else {
-                      settingsForm.style.display = "none";
-                      settingsButton.textContent = "Settings";
-                  }
-              });
-          });
-      </script>
-   </body>
-{% endif %}
+                        <label for="age">Username:</label><br>
+                        <input type="text" id="username" name="username"><br>
 
+                        <button class="saveSettings" id="saveSettings">Save</button>
+                    </form>
+                    <p class="save_info">If you change only one field in your information, you can leave the rest of the fields empty and click "Save".</p>
+                </div>
+            </div>
+
+            <p>Users topics:</p><br>
+            {% for topic in users_topics %}
+            <div class="user_comments">
+                <i></i> {{ topic }}<br>
+            </div>
+            {% endfor %}
+
+            <p>Users comments:</p><br>
+            {% for comment in users_comments %}
+            <div class="user_comments">
+                <i></i> {{ comment }}<br>
+            </div>
+            {% endfor %}
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    const settingsButton = document.getElementById("settingsButton");
+                    const settingsForm = document.getElementById("settingsForm");
+
+                    settingsButton.addEventListener("click", function() {
+                        if (settingsForm.style.display === "none") {
+                            settingsForm.style.display = "block";
+                            settingsButton.textContent = "Close Settings";
+                        } else {
+                            settingsForm.style.display = "none";
+                            settingsButton.textContent = "Settings";
+                        }
+                    });
+                });
+            </script>
+        {% endif %}
+    </div>
+</body>
 </html>

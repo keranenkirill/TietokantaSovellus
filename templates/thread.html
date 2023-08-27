@@ -4,74 +4,122 @@
     <title>.TsirpTsirp.</title>
     <style>
         body {
-            font-family: "Varela Round", sans-serif;
+            font-family: "Arial", sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
         }
 
-        .flash-messages {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .flash-message {
-            background-color: red;
-            color: white;
-            padding: 10px;
+        .container {
+            width: 50%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
             border-radius: 10px;
-            margin: 10px;
-            width: 300px;
-            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 3px solid #ccc;
+            margin-bottom: 20px;
+        }
+
+        nav button{
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .usrPage-button {
+            background-color: #007bff;
+        }
+
+        main {
+            padding: 20px 0;
+        }
+
+        header {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            
+        }
+
+        p {
+            margin: 0;
+            line-height: 1.6;
         }
 
         .CreateButton {
-            display: inline-block;
-            padding: 5px 10px;
-            background-color: rgb(155, 243, 155);
-            color: black;
-            cursor: pointer;
+            padding: 8px 16px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
             border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
         }
 
-        .conversation-button, .usrPage-button {
-            display: inline-block;
-            padding: 5px 10px;
+        .flash-message {
+            background-color: #dc3545;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px;
+            text-align: center;
+        }
+
+        .comment {
+            background-color: #fff;
+            border: 3px solid #ccc;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .topic_comment{
+            border-bottom: 3px solid #ccc;
+            
+            margin-bottom: 10px;
+        }
+
+        .comment-actions {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .comment-actions p {
+            margin: 0;
+            margin-right: 10px;
+        }
+
+        .conversation-button {
+            padding: 6px 12px;
             background-color: #007bff;
             color: white;
-            text-decoration: none;
             border: none;
-            cursor: pointer;
             border-radius: 5px;
+            cursor: pointer;
         }
 
         textarea {
             border-radius: 8px;
             padding: 8px;
             border: 3px solid;
-        }
-
-        /* Additional styles for comments */
-        .comment {
-            margin-bottom: 20px;
-            padding: 10px;
-            border: 3px solid #ccc;
-            border-radius: 10px;
-        }
-
-        /* Style for the navigation */
-        nav {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px;
-            background-color: #f4f4f4;
-        }
-
-        nav button,
-        nav a {
-            margin-right: 10px;
+            width: 50%;
         }
     </style>
 </head>
 <body>
+<div class="container">
     <nav>
         <button class="conversation-button" onclick="window.location.href='/';">Back</button>
         <button class="usrPage-button" onclick="window.location.href='/{{ session.username }}';">Go to profile</button>
@@ -80,52 +128,53 @@
 
     <main>
         <header>
-            <p>{{ content }}</p>
+            <h3>{{ content }}</h3>
             
-            <form action="/add_topic_comment" method="post">
+            <form class= "topic_comment" action="/add_topic_comment" method="post">
                 <input type="hidden" name="topic_id" value="{{ topic_id }}">
                 <label for="topic_thread_comment">Insert comment:</label><br>
-                <textarea name="topic_thread_comment" id="topic_thread_comment" rows="3" cols="30"></textarea><br>
+                <textarea name="topic_thread_comment" id="topic_thread_comment" rows="3"></textarea><br>
                 <input class="CreateButton" type="submit" value="Create">
             </form>
 
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="flash-messages">
-                    {% for message in messages %}
-                        <div class="flash-message">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                </div>
-                <script>
-                    var flashMessages = document.querySelectorAll('.flash-message');
-                    flashMessages.forEach(function(message) {
-                        setTimeout(function() {
-                            message.style.display = 'none';
-                        }, 3000);
-                    });
-                </script>
-            {% endif %}
-        {% endwith %}
-        <hr>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for message in messages %}
+                            <div class="flash-message">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <script>
+                        var flashMessages = document.querySelectorAll('.flash-message');
+                        flashMessages.forEach(function(message) {
+                            setTimeout(function() {
+                                message.style.display = 'none';
+                            }, 3000);
+                        });
+                    </script>
+                {% endif %}
+            {% endwith %}
+            
             {% for comment in comments %}
-            <div class="comment">
-                <p><strong>Comment:</strong> {{ comment[0] }}</p>
-                <p><strong>Created by:</strong> {{ comment[1] }}</p>
-                <p><strong>Likes:</strong> {{ comment[3] }}</p>
-                <form action="/like_comment" method="post">
-                    <input type="hidden" name="topic_id" value="{{ topic_id }}">
-                    <input type="hidden" name="comment_id" value="{{ comment[2] }}">
-                    <input type="hidden" name="user_id" value="{{ session.user_id }}">
-                    <button class="conversation-button" type="submit" name="like" value="like">Like</button>
-                    <button class="conversation-button" type="submit" name="dislike" value="dislike">Dislike</button>
-                </form>
-            </div>
+                <div class="comment">
+                    <p><strong>{{ comment[1] }}</strong> {{ comment[0] }}</p>
+                    <div class="comment-actions">
+                        <p><strong>Likes:</strong> {{ comment[3] }}</p>
+                        <form action="/like_comment" method="post">
+                            <input type="hidden" name="topic_id" value="{{ topic_id }}">
+                            <input type="hidden" name="comment_id" value="{{ comment[2] }}">
+                            <input type="hidden" name="user_id" value="{{ session.user_id }}">
+                            <button class="conversation-button" type="submit" name="like" value="like">Like</button>
+                            <button class="conversation-button" type="submit" name="dislike" value="dislike">Dislike</button>
+                        </form>
+                    </div>
+                </div>
             {% endfor %}
         </header>
     </main>
-
-    <script src="OT-P/fash_error_msg.js"></script>
+</div>
+<script src="OT-P/fash_error_msg.js"></script>
 </body>
 </html>
