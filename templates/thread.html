@@ -123,7 +123,7 @@
     <nav>
         <button class="conversation-button" onclick="window.location.href='/';">Back</button>
         <button class="usrPage-button" onclick="window.location.href='/{{ session.username }}';">Go to profile</button>
-        <a>{{ session.username }}</a>
+        <a>@{{ session.username }}</a>
     </nav>
 
     <main>
@@ -159,7 +159,7 @@
             
             {% for comment in comments %}
                 <div class="comment">
-                    <p><strong>{{ comment[1] }}</strong> {{ comment[0] }}</p>
+                    <p><strong>@{{ comment[1] }}:</strong> {{ comment[0] }}</p>
                     <div class="comment-actions">
                         <p><strong>Likes:</strong> {{ comment[3] }}</p>
                         <form action="/like_comment" method="post">

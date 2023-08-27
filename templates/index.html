@@ -130,7 +130,7 @@
         <nav>
             <button class="logOut-button" onclick="window.location.href='/logout';">Log out</button>
             <button class="usrPage-button" onclick="window.location.href='/{{ session.username }}';">Go to profile</button>
-            <a>{{ session.username }}</a>
+            <a>@{{ session.username }}</a>
         </nav>
         <form class="topic_comment_form" action="/send" method="post">
             <label for="topic_content">Insert topic:</label><br>
@@ -167,7 +167,7 @@
                 {{ message[2] }}<br>
                 <div class="topic-details">
                     <div class="created-by">
-                        {{ message[3] }}
+                        @{{ message[3] }}
                     </div>
                     <div class="conversation-button-container">
                         <button class="conversation-button" onclick="window.location.href='thread/{{ message[0] }}';">To thread</button>
