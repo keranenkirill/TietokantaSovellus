@@ -55,7 +55,7 @@ Edellä olevien toiminallisuuksien nääkymä toistaiseksi puutteelinen, ei viel
 - palvelun etusivulla myös toiminallisuus, jossa näkyy suosituimmat puheenaiheet paikkakunnan, tykkäysten, sekä kommenttien määrän mukaan
 - palvelun etusivulla toiminallisuus, jolla voi hakusanalla hakea keskusteluaiheita ja keskusteluja
 
-### tuotannon kehitysideoita/ -taskeja
+### Tuotannon kehitysideoita/ -taskeja
 - mahdollisuus muuttaa omaa salasanaa
 - käyttäjän etusivun kommenttien ja puheenaiheiden looginen esitystapa
 - palvelun etusivulle mahdollisuus sorttaamaan keskusteluketjujen näkymiä
