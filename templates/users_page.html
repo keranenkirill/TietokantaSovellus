@@ -96,6 +96,29 @@
             margin-bottom: 20px;
         }
 
+
+        .buttonContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px; /* Adjust as needed */
+        }
+
+        .topicsButton, .commentsButton {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+        }
+
+        .topicsButton:hover, .commentsButton:hover {
+            background-color: #0056b3;
+        }
+
         /* Add more CSS styles as needed */
     </style>
 </head>
@@ -103,11 +126,16 @@
     <div class="container">
         {% if session.user_id %}
 
-            <nav>
-                <button class="backButton" onclick="window.location.href='/';">Back</button>
-                <button class="settingsButton" id="settingsButton">Settings</button>
-                <a>@{{ session.username }}</a>
-            </nav>
+        <nav>
+            <button class="backButton" onclick="window.location.href='/';">Back</button>
+            <button class="settingsButton" id="settingsButton">Settings</button>
+            <a>@{{ session.username }}</a>
+        </nav>
+
+        <div class="buttonContainer">
+            <button class="topicsButton" id="topicsButton">Topics</button>
+            <button class="commentsButton" id="commentsButton">Comments</button>
+        </div>
 
             <div class="settingsForm" id="settingsForm" style="display: none;">
                 <h2>Settings</h2>
@@ -145,25 +173,35 @@
                 </div>
             </div>
 
-            <p>Users topics:</p><br>
-            {% for topic in users_topics %}
-            <div class="user_comments">
-                <i></i> {{ topic }}<br>
-            </div>
-            {% endfor %}
 
-            <p>Users comments:</p><br>
-            {% for comment in users_comments %}
-            <div class="user_comments">
-                <i></i> {{ comment }}<br>
+            <div class="user_topics" id="userTopics">
+                <h2>Topics</h2>
+                {% for topic in users_topics %}
+                <div class="user_comments">
+                    <i></i> {{ topic }}<br>
+                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
+            
+            <div class="user_comments" id="userComments" style="display: none;">
+                <h2>Comments</h2>
+                {% for comment in users_comments %}
+                <div class="user_comments">
+                    <i></i> {{ comment }}<br>
+                </div>
+                {% endfor %}
+            </div>
+            
 
             <script>
                 document.addEventListener("DOMContentLoaded", function() {
                     const settingsButton = document.getElementById("settingsButton");
                     const settingsForm = document.getElementById("settingsForm");
-
+                    const topicsButton = document.getElementById("topicsButton");
+                    const userTopics = document.getElementById("userTopics");
+                    const commentsButton = document.getElementById("commentsButton");
+                    const userComments = document.getElementById("userComments");
+    
                     settingsButton.addEventListener("click", function() {
                         if (settingsForm.style.display === "none") {
                             settingsForm.style.display = "block";
@@ -172,6 +210,20 @@
                             settingsForm.style.display = "none";
                             settingsButton.textContent = "Settings";
                         }
+                    });
+    
+                    topicsButton.addEventListener("click", function() {
+                        userTopics.style.display = "block";
+                        userComments.style.display = "none";
+                        topicsButton.textContent = "Topics";
+                        commentsButton.textContent = "Comments";
+                    });
+
+                    commentsButton.addEventListener("click", function() {
+                        userTopics.style.display = "none";
+                        userComments.style.display = "block";
+                        topicsButton.textContent = "Topics";
+                        commentsButton.textContent = "Comments";
                     });
                 });
             </script>
