@@ -61,4 +61,5 @@ Sovelluksen tarkoituksena on tarjota käyttäjälle keskusteluketju-alusta, joss
 - palvelun etusivulle mahdollisuus sorttaamaan keskusteluketjujen näkymiä
 - kuvien lisäämisen mahdollistaminen keskusteluketjuihin
 - visuaalisia parannuksia
+- css ja html tiedostojen eriyttäminen toisitstaan erillisiksi tiedostoiksi
 
