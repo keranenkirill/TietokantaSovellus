@@ -8,8 +8,10 @@
 Sovelluksen tarkoituksena on tarjota käyttäjälle keskusteluketju-alusta, jossa voidaan käsitellä eri puheenaiheita.
 
 ## Perusversion toiminallisuudet (26.08.2023) 
-(tämä kappale päivitetään projektin edetessä)
+Projektin kehityksen säänöllisyys vähenee toisten kurssien takiatoistaiseksi (alkaen 4.9.2023). Tarkoituksena kuitenkin lisätä uusia toiminallisuuksia samalla ylläpitäen ohjelmointi aktiivisuutta.
 
+
+(tämä kappale päivitetään projektin edetessä)
 
 - Sovellus toimii paikallisesti
 - Käyttäjä voi kirjautua palveluun tai luoda uuden käyttäjä-tilin 
@@ -26,8 +28,7 @@ Sovelluksen tarkoituksena on tarjota käyttäjälle keskusteluketju-alusta, joss
 - Kommenteille on mahdollista antaa joko positiivinen tykkäys tai negatiivinen tykkäys
    - käyttäjä ei voi antaa monta tykkäystä peräkkäin
 - käyttäjällä on oma etusivu, jossa:
-   - *)mahdollisuus tarkastella kaikkia omia puheenaiheita
-   - *)kommentteja
+   - mahdollisuus tarkastella kaikkia omia puheenaiheita ja kommentteja, sekä näiden kautta pääsy tarkastelemaan koko keskusteluketjua
    - toiminallisuus muokata tietojaan (etunimi, sukunimi, ikä, kaupunki ja käyttäjänimi) 
 
 - Neljä tietokanta-taulua:
@@ -36,8 +37,7 @@ Sovelluksen tarkoituksena on tarjota käyttäjälle keskusteluketju-alusta, joss
    - otp_comments
    - otp_user_reactions
 
-*) 
-Edellä olevien toiminallisuuksien nääkymä toistaiseksi puutteelinen, ei vielä olla tultu johtopäätökseen miten olisi järkevää esittää data (issueen saa antaa ehdotuksia)
+
   
 
 ## Perusversion tavoite-toiminallisuudet
