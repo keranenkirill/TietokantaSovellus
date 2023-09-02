@@ -8,7 +8,7 @@
 Sovelluksen tarkoituksena on tarjota käyttäjälle keskusteluketju-alusta, jossa voidaan käsitellä eri puheenaiheita.
 
 ## Perusversion toiminallisuudet (26.08.2023) 
-Projektin kehityksen säänöllisyys vähenee toisten kurssien takiatoistaiseksi (alkaen 4.9.2023). Tarkoituksena kuitenkin lisätä uusia toiminallisuuksia samalla ylläpitäen ohjelmointi aktiivisuutta.
+### Projektin kehityksen säänöllisyys vähenee toisten kurssien takia toistaiseksi (alkaen 4.9.2023). Tarkoituksena kuitenkin lisätä uusia toiminallisuuksia samalla ylläpitäen ohjelmointi aktiivisuutta.
 
 
 (tämä kappale päivitetään projektin edetessä)
